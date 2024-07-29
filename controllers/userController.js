@@ -6,22 +6,21 @@ const homepage = (req, res) => {
 };
 
 const loginControl = (req, res) => {
-    res.render('login');
+    res.render('login', { errorMsg: 'Write your username and password' });
 };
 
 
 const contactControl = (req, res) => {
-    res.render('contacts');
+    res.render('contacts',{errorMsg:"Welcome to conatacts"});
 };
 
 const registerControl = (req, res) => {
-    res.render('register');
+    res.render('register', { errorMsg: "Fill your details" });
 };
 
 
 const createUser = async (req, res) => {
     const { name, email, password } = req.body;
-    // console.log(name, email, password)
     if (!name || !email || !password) {
         return res.render('register', { errorMsg: 'All fields are mandatory' });
     }
@@ -29,29 +28,29 @@ const createUser = async (req, res) => {
     try {
         const userExists = await User.findOne({ email });
         if (userExists) {
-            return res.render('register', { errorMsg: "User already registered. Plearsse login." });
+            return res.render('register', { errorMsg: "User already registered. Please login." });
         }
-        console.log(name, email, password)
         await User.create({ name, email, password });
-        res.status(201).render('register', { errorMsg: 'user created' });
+        res.status(201).render('register', { errorMsg: 'User created, Please sign in' });
 
     } catch (error) {
-        res.render('register', { errorMsg: 'try again' });
+        res.render('register', { errorMsg: 'Try Again' });
     }
 };
 
 const loginUser = async (req, res) => {
-    const { username, password } = req.body;
+    const email = req.body.email;
+    const password = req.body.password;
 
     try {
-        const user = await User.findOne({ username });
+        const user = await User.findOne({email});        
         if (!user) {
-            return res.render('login', { errorMsg: "User not found" });
+            return res.render('login', { errorMsg: "User not found,please signup" });
         }
-        console.log("User verified");
-        res.status(200).render('login', { errorMsg: "you logged in now you can see your contacts" });
+
+        res.render('contacts',{errorMsg:`Hi ${user.name}`})
     } catch (error) {
-        res.render('login', { errorMsg: error.message });
+        res.render('login', { errorMsg:"login is not renderd" });
     }
 };
 

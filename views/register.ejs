@@ -21,9 +21,15 @@
 
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
-
+            <p class="newMsg">
+                <%=errorMsg %>
+            </p>
             <button type="submit">Register</button>
         </form>
+
+        <div class="si-msg">Already register please <a href="/login">Login</a></div>
+
+
 </body>
 
 </html>

@@ -49,6 +49,12 @@ button:hover {
     background-color: #45a049;
 }
 
-.errorMsg{
-    padding: 20px;
+.newMsg {
+    padding: 0px;
+}
+.si-msg{
+    padding: 7px;
+}
+.si-msg a{
+    text-decoration: none;
 }
