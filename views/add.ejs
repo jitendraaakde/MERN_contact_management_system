@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="add.css" type="text/css">
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Edit Contact</h2>
+        <form id="contactForm" action="/add" method="POST">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" value=<%= contactEdit.name ? contactEdit.name : '' %> required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" value=<%=contactEdit.email ? contactEdit.email : ''%> required>
+
+            <label for="phone">Phone</label>
+            <input type="text" id="phone" name="phone" value=<%=contactEdit.phone ? contactEdit.phone : ''%> required>
+            <div><%=errorMsg %></div>
+            <button type="submit">submit</button>
+        </form>
+    </div>
+
+
+
+
+
+    
+</body>
+</html>
+
+
+
+
+
+
+
