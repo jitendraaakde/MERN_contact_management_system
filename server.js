@@ -7,6 +7,8 @@ require('dotenv').config();
 const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.use(express.json());
+
 app.use(session({
     secret:"jitu aakde",
     resave:true,
@@ -15,11 +17,11 @@ app.use(session({
         maxAge: 60000*60*60
     }
 }))
+
 // Serve static files from the "public" directory
 const static_path = path.join(__dirname, 'public');
 app.use(express.static(static_path));
 
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 connectDb();
 

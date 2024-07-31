@@ -6,20 +6,14 @@ const mongoose=require('mongoose')
 const homepage = (req, res) => {
     res.render('index');
 };
-const addControl = (req, res) => {
-    res.render('add', { errorMsg: 'Add your contacts in contactBook' });
-};
-
 const loginControl = (req, res) => {
     res.render('login', { errorMsg: 'Write your username and password' });
 };
 
-
 const contactControl =async (req, res) => {
-
     if(req.session.user_id){
         const allContacts = await Contact.find({user_id:req.session.user_id})
-        res.render('contacts',{username:req.session.username,allContacts:allContacts});
+        res.render('contacts',{allContacts:allContacts});
 
     }else{
         res.redirect('login')
@@ -34,10 +28,6 @@ const registerControl = (req, res) => {
 
 const createUser = async (req, res) => {
     const { name, email, password } = req.body;
-    if (!name || !email || !password) {
-        return res.render('register', { errorMsg: 'All fields are mandatory' });
-    }
-
     try {
         const userExists = await User.findOne({ email });
         if (userExists) {
@@ -76,15 +66,7 @@ const showContactForUser = (req, res) => {
 const addContacts = async (req,res)=>{
     const user_id=req.session.user_id;
     const {name,email,phone }=req.body;
-    if (!name || !email || !phone) {
-        return res.render('add', { errorMsg: 'All fields are mandatory' });
-    }
-
     try {
-        // const userExists = await User.findOne({ email, userId});
-        // if (userExists) {
-        //     return res.render('add', { errorMsg: "User already present in your contactBook" });
-        // }
         await Contact.create({ user_id, name, email, phone });
         res.status(201).redirect('contacts');
 
@@ -93,7 +75,7 @@ const addContacts = async (req,res)=>{
     }
 }
 const addDisplay=(req,res)=>{
-    res.render('add',{errorMsg:'add is displaying'})
+    res.render('add',{errorMsg:'Please add your contact'})
 }
 const editController = async (req, res) => {
     const { id } = req.params; // Actual ID of the document
@@ -103,10 +85,9 @@ const editController = async (req, res) => {
     }
     const { name, email, phone } = req.body;
     try {
-        // Find and update the contact
-        const updatedContact = await Contact.findByIdAndUpdate( id, // Document ID
-            { user_id, name, email, phone }, // Update fields
-            { new: true, runValidators: true } // Options: `new` returns updated document, `runValidators` applies validation
+        const updatedContact = await Contact.findByIdAndUpdate( id, 
+            { user_id, name, email, phone }, 
+            { new: true, runValidators: true } 
         );
 
         if (!updatedContact) {
@@ -115,19 +96,50 @@ const editController = async (req, res) => {
         }
 
         // Send the updated contact as a response
-        res.render('contacts')
+        const allContacts = await Contact.find({user_id:req.session.user_id})
+        res.render('contacts',{username:req.session.username,allContacts:allContacts});
+    
     } catch (error) {
         console.error('Error updating contact:', error);
         res.status(500).send('Server error');
     }
 };
 
+const deleteContacts = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).send('Invalid contact ID format');
+        }
+
+        const result = await Contact.deleteOne({ _id: id });
+
+        if (result.deletedCount > 0) {
+            console.log('Contact deleted');
+            const allContacts = await Contact.find({ user_id: req.session.user_id });
+            return res.render('contacts', {
+                username: req.session.username,
+                allContacts: allContacts
+            });
+        } else {
+            console.log('No contact found with the provided ID');
+            const allContacts = await Contact.find({ user_id: req.session.user_id });
+            return res.render('contacts', {
+                username: req.session.username,
+                allContacts: allContacts
+            });
+        }
+    } catch (error) {
+        console.error('Error deleting contact:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
 
 
 const editPage=async (req,res)=>{
     const {id}=req.params;
     const editContact= await Contact.findOne({_id:id})
-    // req.session.editContact=editContact;
     res.render('edit',{editContact:editContact});
 }
 
@@ -137,5 +149,5 @@ module.exports = {
     contactControl,
     registerControl,
     createUser,
-    loginUser,addControl,addContacts,addDisplay,editPage,editController
+    loginUser,addContacts,addDisplay,editPage,editController,deleteContacts
 };
