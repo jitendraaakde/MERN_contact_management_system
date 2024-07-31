@@ -78,7 +78,7 @@ const addDisplay=(req,res)=>{
     res.render('add',{errorMsg:'Please add your contact'})
 }
 const editController = async (req, res) => {
-    const { id } = req.params; // Actual ID of the document
+    const { id } = req.body; // Actual ID of the document
     const user_id = req.session.user_id; // User ID from the session
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).send('Invalid ID format');
@@ -106,8 +106,8 @@ const editController = async (req, res) => {
 };
 
 const deleteContacts = async (req, res) => {
-    const { id } = req.params;
-
+    const { id }=req.body;
+    console.log(id)
     try {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).send('Invalid contact ID format');
@@ -136,9 +136,8 @@ const deleteContacts = async (req, res) => {
     }
 }
 
-
 const editPage=async (req,res)=>{
-    const {id}=req.params;
+    const id = req.query.id;
     const editContact= await Contact.findOne({_id:id})
     res.render('edit',{editContact:editContact});
 }

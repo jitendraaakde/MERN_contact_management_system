@@ -1,40 +1,28 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/edit.css">
-    <title>Document</title>
+    <title>Edit Contact</title>
 </head>
 <body>
-
     <div class="container">
         <h2>Edit Contact</h2>
-        <form id="contactForm" action="/edit/<%=editContact._id %>" method="POST">
+        <form id="contactForm" action="/edit" method="POST">
+            <input type="hidden" id="id" name="id" value="<%= editContact ? editContact._id : '' %>">
+            
             <label for="name">Name</label>
-            <input type="text" id="name" name="name" value=<%= editContact.name ? editContact.name : '' %> required>
+            <input type="text" id="name" name="name" value="<%= editContact ? editContact.name : '' %>" required>
 
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" value=<%=editContact.email ? editContact.email : ''%> required>
+            <input type="email" id="email" name="email" value="<%= editContact ? editContact.email : '' %>" required>
 
             <label for="phone">Phone</label>
-            <input type="text" id="phone" name="phone" value=<%=editContact.phone ? editContact.phone : ''%> required>
-            <button type="submit">submit</button>
+            <input type="text" id="phone" name="phone" value="<%= editContact ? editContact.phone : '' %>" required>
+            
+            <button type="submit">Submit</button>
         </form>
     </div>
-
-
-
-
-
-    
 </body>
 </html>
-
-
-
-
-
-
-
