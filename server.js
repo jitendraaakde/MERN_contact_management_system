@@ -30,6 +30,6 @@ app.use(bodyParser.json());
 
 app.use('/', require('./routes/userRoutes'));
 
-app.listen(2000, () => {
-    console.log('Server is running on port 2000');
+app.listen(process.env.PORT, () => {
+    console.log(`Port ${process.env.PORT}`);
 });

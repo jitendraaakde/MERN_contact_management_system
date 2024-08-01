@@ -16,9 +16,27 @@ body {
     width: 600px;
     text-align: center;
 }
+.add-button{
+ margin: 20px;
+
+}
+.add-button a{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 25px;
+  padding-right: 25px;
+  text-decoration: none;
+  margin: 10px;
+  color: rgb(247, 251, 247);
+  border: 2px solid rgb(56, 183, 42);
+  border-radius: 8px;
+  background-color: #4CAF50;
+}   
+
 
 h2 {
     margin-bottom: 20px;
+
 }
 
 table {
@@ -41,7 +59,7 @@ th {
 }
 
 button {
-    padding: 5px 10px;
+    padding: 2px 5px;
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -82,8 +100,9 @@ input {
 }
 
 button[type="submit"] {
-    width: 100%;
-    padding: 10px;
+    margin: 3px;
+    width: 90%;
+    padding: 5px;
     background-color: #4CAF50;
     color: white;
     border: none;

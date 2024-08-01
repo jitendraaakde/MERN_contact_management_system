@@ -7,7 +7,7 @@ const homepage = (req, res) => {
     res.render('index');
 };
 const loginControl = (req, res) => {
-    res.render('login', { errorMsg: 'Write your username and password' });
+    res.render('login', { errorMsg: 'Write your Email and Password' });
 };
 
 const contactControl =async (req, res) => {
@@ -22,7 +22,7 @@ const contactControl =async (req, res) => {
 };
 
 const registerControl = (req, res) => {
-    res.render('register', { errorMsg: "Fill your details" });
+    res.render('register', { errorMsg: "Please fill your details for register " });
 };
 
 
@@ -34,7 +34,7 @@ const createUser = async (req, res) => {
             return res.render('register', { errorMsg: "User already registered. Please login." });
         }
         await User.create({ name, email, password });
-        res.status(201).render('register', { errorMsg: 'User created, Please sign in' });
+        res.status(201).render('register', { errorMsg: 'User created, Please Login' });
 
     } catch (error) {
         res.render('register', { errorMsg: 'Try Again' });
@@ -42,7 +42,7 @@ const createUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-    const email = req.body.email;
+    const email = req.body.email;  
     const password = req.body.password;
 
     try {
@@ -60,8 +60,6 @@ const loginUser = async (req, res) => {
     }
 };
 
-const showContactForUser = (req, res) => {
-};
 
 const addContacts = async (req,res)=>{
     const user_id=req.session.user_id;
@@ -91,11 +89,9 @@ const editController = async (req, res) => {
         );
 
         if (!updatedContact) {
-            console.log('Data not modified');
             return res.status(404).send('Contact not found or no changes made');
         }
 
-        // Send the updated contact as a response
         const allContacts = await Contact.find({user_id:req.session.user_id})
         res.render('contacts',{username:req.session.username,allContacts:allContacts});
     
@@ -107,7 +103,6 @@ const editController = async (req, res) => {
 
 const deleteContacts = async (req, res) => {
     const { id }=req.body;
-    console.log(id)
     try {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).send('Invalid contact ID format');
@@ -116,14 +111,12 @@ const deleteContacts = async (req, res) => {
         const result = await Contact.deleteOne({ _id: id });
 
         if (result.deletedCount > 0) {
-            console.log('Contact deleted');
             const allContacts = await Contact.find({ user_id: req.session.user_id });
             return res.render('contacts', {
                 username: req.session.username,
                 allContacts: allContacts
             });
         } else {
-            console.log('No contact found with the provided ID');
             const allContacts = await Contact.find({ user_id: req.session.user_id });
             return res.render('contacts', {
                 username: req.session.username,

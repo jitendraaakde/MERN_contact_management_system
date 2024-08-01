@@ -10,12 +10,23 @@ body {
 
 .login-container {
     background-color: white;
+    align-items: center;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 300px;
     text-align: center;
 }
+.reg-page{ 
+    color: green;
+    /* padding: 4px; */
+    margin:20px;
+}
+.reg-page a{
+    text-decoration: none;
+    color: blue;
+}
+
 
 h2 {
     margin-bottom: 20px;
@@ -27,7 +38,7 @@ label {
 }
 
 input {
-    width: 100%;
+    width: 90%;
     padding: 8px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
