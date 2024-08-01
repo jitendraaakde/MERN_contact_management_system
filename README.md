@@ -1,4 +1,3 @@
-Contact Management System
 Welcome to the Contact Management System!
 
 Overview
