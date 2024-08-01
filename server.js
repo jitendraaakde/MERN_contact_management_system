@@ -15,7 +15,7 @@ app.use(session({
     saveUninitialized:true,
     cookie: { 
         maxAge: 60000*60*60
-    }
+    }   
 }))
 
 // Serve static files from the "public" directory
